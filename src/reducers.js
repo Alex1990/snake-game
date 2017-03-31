@@ -1,20 +1,24 @@
 import { combineReducers } from 'redux';
 import {
+  INIT_GAME_STATUS, INIT_SNAKE_ORIENTATION, INIT_TARGET_ORIENTATION,
+} from './setup';
+import {
   INITIALIZE, INITIALIZE_TILES, INITIALIZE_SNAKE,
-  SET_GAME_STATUS, SET_SNAKE_ORIENTATION, SET_TARGET_ORIENTATION, CHANGE_TARGET_ORIENTATION,
+  SET_GAME_STATUS, SET_SNAKE_ORIENTATION,
+  SET_TARGET_ORIENTATION, CHANGE_TARGET_ORIENTATION,
   SET_MOVE_TIMER, CLEAR_MOVE_TIMER,
   SNAKE_MOVE, SET_SCORE, ADD_SCORE,
   TILES_SNAKE_MOVE, TILES_EAT_EGG,
   SNAKE_SNAKE_MOVE, SNAKE_EAT_EGG, GENERATE_EGG
 } from './actionTypes';
 import {
-  ROW_COUNT, COL_COUNT, SNAKE_LENGTH,
-  GAME_STATUS, SNAKE_ORIENTATION, TARGET_ORIENTATION,
-} from './setup';
-import {
   initializeTiles, initializeSnake, setGameStatus, setScore, addScore,
   setTargetOrientation, setSnakeOrientation, clearMoveTimer,
 } from './actions';
+import {
+  cloneTiles, isLost, generateEgg,
+  getInitTiles, getInitSnake, getInitEgg
+} from './util';
 
 function scoreReducer(state = 0, action) {
   switch (action.type) {
@@ -27,7 +31,7 @@ function scoreReducer(state = 0, action) {
   }
 }
 
-function gameStatusReducer(state = GAME_STATUS, action) {
+function gameStatusReducer(state = INIT_GAME_STATUS, action) {
   switch (action.type) {
     case SET_GAME_STATUS:
       return action.gameStatus;
@@ -36,7 +40,7 @@ function gameStatusReducer(state = GAME_STATUS, action) {
   }
 }
 
-function snakeOrientationReduer(state = SNAKE_ORIENTATION, action) {
+function snakeOrientationReduer(state = INIT_SNAKE_ORIENTATION, action) {
   switch (action.type) {
     case SET_SNAKE_ORIENTATION:
       return action.snakeOrientation;
@@ -45,7 +49,7 @@ function snakeOrientationReduer(state = SNAKE_ORIENTATION, action) {
   }
 }
 
-function targetOrientationReducer(state = TARGET_ORIENTATION, action) {
+function targetOrientationReducer(state = INIT_TARGET_ORIENTATION, action) {
   switch (action.type) {
     case SET_TARGET_ORIENTATION:
       return action.targetOrientation;
@@ -76,12 +80,6 @@ function moveTimerReducer(state = null, action) {
     default:
       return state;
   }
-}
-
-function cloneTiles(tiles) {
-  return tiles.map(rowTiles =>
-    rowTiles.map(tile => ({ ...tile }))
-  );
 }
 
 function tilesReducer(state = [], action) {
@@ -184,127 +182,16 @@ function snakeReducer(state = [], action) {
   }
 }
 
-function getInitalizedTiles() {
-  const tiles = [];
-
-  for (let i = 0; i < ROW_COUNT; i++) {
-    tiles[i] = [];
-    for (let j = 0; j < COL_COUNT; j++) {
-      tiles[i][j] = {
-        type: 'default',
-        row: i,
-        col: j,
-      };
-    }
-  }
-
-  return tiles;
-}
-
-function getInitalizedSnake() {
-  let deltaRow = 0;
-  let deltaCol = 0;
-
-  switch (TARGET_ORIENTATION) {
-    case 'UP': deltaRow = 1; break;
-    case 'DOWN': deltaRow = -1; break;
-    case 'LEFT': deltaCol = 1; break;
-    case 'RIGHT': deltaCol = -1; break;
-    default: break;
-  }
-
-  let row = 12;
-  let col = 30;
-
-  const snake = [{
-    type: 'snake-head',
-    row,
-    col,
-  }];
-
-  for (let i = 0; i < SNAKE_LENGTH - 1; i++) {
-    row += deltaRow;
-    col += deltaCol;
-
-    snake.push({
-      type: 'snake-joint',
-      row,
-      col,
-    });
-  }
-
-  return snake;
-}
-
-function getInitializedEgg() {
-  return {
-    type: 'egg',
-    row: 12,
-    col: 8,
-  };
-}
-
-function generateEgg(tiles, snake) {
-  const rowCount = tiles.length;
-  const colCount = tiles[0].length;
-  let row = 0;
-  let col = 0;
-
-  while (true) {
-    row = Math.floor(Math.random() * rowCount);
-    col = Math.floor(Math.random() * colCount);
-
-    let generated = true;
-
-    for (let i = 0; i < snake.length; i++) {
-      const joint = snake[i];
-      if (joint.row === row && joint.col === col) {
-        generated = false;
-        break;
-      }
-    }
-
-    if (generated) break;
-  }
-
-  return {
-    type: 'egg',
-    row,
-    col,
-  };
-}
-
-function isLost({ tiles, snake, nextTileRow, nextTileCol }) {
-  const rowCount = tiles.length;
-  const colCount = tiles[0].length;
-  let status = false;
-
-  if (nextTileRow < 0 || nextTileRow >= rowCount
-      || nextTileCol < 0 || nextTileCol >= colCount) {
-    status = true;
-  }
-
-  for (let i = 0; i < snake.length; i++) {
-    if (snake[i].row === nextTileRow && snake[i].col === nextTileCol) {
-      status = true;
-      break;
-    }
-  }
-
-  return status;
-}
-
-
 function crossSliceInitialize(state = {}, action) {
   const nextState = { ...state };
-  const tiles = getInitalizedTiles();
-  const snake = getInitalizedSnake();
-  const egg = getInitializedEgg();
+  const tiles = getInitTiles();
+  const snake = getInitSnake();
+  const egg = getInitEgg();
 
   nextState.score = scoreReducer(state.score, setScore(0));
   nextState.gameStatus = gameStatusReducer(state.gameStatus, setGameStatus('INITIALIZED'));
-  nextState.targetOrientation = targetOrientationReducer(state.targetOrientation, setTargetOrientation(TARGET_ORIENTATION));
-  nextState.snakeOrientation = snakeOrientationReduer(state.snakeOrientation, setSnakeOrientation(SNAKE_ORIENTATION));
+  nextState.targetOrientation = targetOrientationReducer(state.targetOrientation, setTargetOrientation(INIT_TARGET_ORIENTATION));
+  nextState.snakeOrientation = snakeOrientationReduer(state.snakeOrientation, setSnakeOrientation(INIT_SNAKE_ORIENTATION));
   nextState.tiles = tilesReducer(state.tiles, initializeTiles({ tiles, snake, egg }));
   nextState.snake = snakeReducer(state.snake, initializeSnake(snake));
 

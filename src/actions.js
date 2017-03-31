@@ -1,4 +1,4 @@
-
+import { SNAKE_MOVE_SPEED } from './setup';
 import {
   INITIALIZE, INITIALIZE_TILES, INITIALIZE_SNAKE,
   SET_GAME_STATUS, SET_SNAKE_ORIENTATION, SET_TARGET_ORIENTATION, CHANGE_TARGET_ORIENTATION,
@@ -110,7 +110,7 @@ function start() {
     dispatch(setGameStatus('RUNNING'));
     const moveTimer = setInterval(() => {
       dispatch(snakeMove());
-    }, 500);
+    }, 1000 * 1 / SNAKE_MOVE_SPEED);
     dispatch(setMoveTimer(moveTimer));
   };
 }
@@ -125,7 +125,7 @@ function togglePaused() {
     } else if (gameStatus === 'PAUSED') {
       const moveTimer = setInterval(() => {
         dispatch(snakeMove());
-      }, 500);
+      }, 1000 * 1 / SNAKE_MOVE_SPEED);
       dispatch(setMoveTimer(moveTimer));
       dispatch(setGameStatus('RUNNING'));
     }
