@@ -1,10 +1,10 @@
 import React from 'react';
-import ScoreField from '../containers/ScoreField';
+import ScoreBoardContainer from '../containers/ScoreBoard';
 import ManInfo from './ManInfo';
 
 const AttachPanel = () => (
   <div className="attach-panel">
-    <ScoreField />
+    <ScoreBoardContainer />
     <ManInfo />
   </div>
 );

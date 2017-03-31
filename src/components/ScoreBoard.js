@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 
-const Score = ({ score }) => (
+const ScoreBoard = ({ score }) => (
   <div className="score">
     Score: <span className="score-value">{score}</span>  
   </div>
 );
 
-Score.propTypes = {
+ScoreBoard.propTypes = {
   score: PropTypes.number,
 };
 
-export default Score;
+export default ScoreBoard;

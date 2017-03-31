@@ -1,11 +1,11 @@
 import React from 'react';
-import PlayLayer from '../containers/PlayLayer';
-import StatusInfoLayer from '../containers/StatusInfoLayer';
+import FloorContainer from '../containers/Floor';
+import PromptInfoContainer from '../containers/PromptInfo';
 
 const PlayArea = () => (
   <div className="play-area">
-    <PlayLayer />
-    <StatusInfoLayer />
+    <FloorContainer />
+    <PromptInfoContainer />
   </div>
 );
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Ground from '../components/Ground';
+import FloorComponent from '../components/Floor';
 
 const mapStateToProps = (state) => {
   return {
@@ -8,8 +8,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const PlayLayer = connect(
+const Floor = connect(
   mapStateToProps,
-)(Ground);
+)(FloorComponent);
 
-export default PlayLayer;
+export default Floor;

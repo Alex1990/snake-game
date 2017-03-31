@@ -1,7 +1,7 @@
 import React from 'react';
 import * as propTypes from '../propTypes';
 
-const StatusInfo = ({ gameStatus }) => {
+const PropmptInfo = ({ gameStatus }) => {
   let info;
 
   switch (gameStatus) {
@@ -28,8 +28,8 @@ const StatusInfo = ({ gameStatus }) => {
   }
 };
 
-StatusInfo.propTypes = {
+PropmptInfo.propTypes = {
   gameStatus: propTypes.gameStatus,
 };
 
-export default StatusInfo;
+export default PropmptInfo;

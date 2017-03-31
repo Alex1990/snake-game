@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import {
   initialize, start, changeOrientation, togglePaused,
 } from '../actions';
-import Main from '../components/Main';
+import MainComponent from '../components/Main';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const PlayLayer = connect(
+const Main = connect(
   null,
   mapDispatchToProps,
-)(Main);
+)(MainComponent);
 
-export default PlayLayer;
+export default Main;

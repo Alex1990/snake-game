@@ -2,7 +2,7 @@ import React from 'react';
 import * as propTypes from '../propTypes';
 import Tile from './Tile';
 
-const Ground = ({ tiles, snakeOrientation }) => {
+const Floor = ({ tiles, snakeOrientation }) => {
   const tileList = tiles.map((rowTiles, row) =>
     <div className="tile-row" key={`tile-row-${row}`}>
     {
@@ -22,13 +22,13 @@ const Ground = ({ tiles, snakeOrientation }) => {
     </div>
   );
   return (
-    <div className="ground">{tileList}</div>
+    <div className="floor">{tileList}</div>
   );
 };
 
-Ground.propTypes = {
+Floor.propTypes = {
   tiles: propTypes.tiles,
   snakeOrientation: propTypes.orientation,
 };
 
-export default Ground;
+export default Floor;

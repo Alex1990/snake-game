@@ -43,33 +43,33 @@ code {
   padding: 20px;
 }
 
-.ground {
+.floor {
   border: 10px solid #444;
 }
 
-.ground .tile-row {
+.floor .tile-row {
   display: flex;
 }
 
-.ground .tile {
+.floor .tile {
   width: 15px;
   height: 15px;
   background: #ddd;
   border: 1px solid #eee;
 }
 
-.ground .egg,
-.ground .snake-head,
-.ground .snake-joint {
+.floor .egg,
+.floor .snake-head,
+.floor .snake-joint {
   background: #444;
 }
 
-.ground .snake-head {
+.floor .snake-head {
   position: relative;
 }
 
-.ground .snake-head:before,
-.ground .snake-head:after {
+.floor .snake-head:before,
+.floor .snake-head:after {
   position: absolute;
   content: '';
   width: 2px;
@@ -77,47 +77,47 @@ code {
   background: #fff;
 }
 
-.ground .snake-head.left:before {
+.floor .snake-head.left:before {
   top: 2px;
   left: 4px;
 }
 
-.ground .snake-head.left:after {
+.floor .snake-head.left:after {
   bottom: 2px;
   left: 4px;
 }
 
-.ground .snake-head.right:before {
+.floor .snake-head.right:before {
   top: 2px;
   right: 4px;
 }
 
-.ground .snake-head.right:after {
+.floor .snake-head.right:after {
   bottom: 2px;
   right: 4px;
 }
 
-.ground .snake-head.up:before {
+.floor .snake-head.up:before {
   top: 4px;
   left: 2px;
 }
 
-.ground .snake-head.up:after {
+.floor .snake-head.up:after {
   top: 4px;
   right: 2px;
 }
 
-.ground .snake-head.down:before {
+.floor .snake-head.down:before {
   bottom: 4px;
   left: 2px;
 }
 
-.ground .snake-head.down:after {
+.floor .snake-head.down:after {
   bottom: 4px;
   right: 2px;
 }
 
-.ground .egg {
+.floor .egg {
   border-radius: 7px;
   overflow: hidden;
 }

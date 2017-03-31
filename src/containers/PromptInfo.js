@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import StatusInfo from '../components/StatusInfo';
+import PromptInfoComponent from '../components/PromptInfo';
 
 const mapStateToProps = (state) => {
   return {
@@ -7,8 +7,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const StatusInfoLayer = connect(
+const PromptInfo = connect(
   mapStateToProps,
-)(StatusInfo);
+)(PromptInfoComponent);
 
-export default StatusInfoLayer;
+export default PromptInfo;
