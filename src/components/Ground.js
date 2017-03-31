@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { tileTypes, orientations } from '../actions';
+import React from 'react';
+import * as propTypes from '../propTypes';
 import Tile from './Tile';
 
 const Ground = ({ tiles, snakeOrientation }) => {
@@ -27,14 +27,8 @@ const Ground = ({ tiles, snakeOrientation }) => {
 };
 
 Ground.propTypes = {
-  tiles: PropTypes.arrayOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.oneOf(tileTypes),
-      })
-    )
-  ),
-  snakeOrientation: PropTypes.oneOf(orientations),
+  tiles: propTypes.tiles,
+  snakeOrientation: propTypes.orientation,
 };
 
 export default Ground;

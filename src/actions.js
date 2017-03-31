@@ -1,29 +1,10 @@
-const INITIALIZE = 'INITIALIZE';
-const INITIALIZE_TILES = 'INITIALIZE_TILES';
-const INITIALIZE_SNAKE = 'INITIALIZE_SNAKE';
-const SET_MOVE_TIMER = 'SET_MOVE_TIMER';
-const CLEAR_MOVE_TIMER = 'CLEAR_MOVE_TIMER';
-const SET_GAME_STATUS = 'SET_GAME_STATUS';
-const ADD_SCORE = 'ADD_SCORE';
-const SET_SNAKE_ORIENTATION = 'SET_SNAKE_ORIENTATION';
-const SET_TARGET_ORIENTATION = 'SET_TARGET_ORIENTATION';
-const SNAKE_MOVE = 'SNAKE_MOVE';
-const TILES_SNAKE_MOVE = 'TILES_SNAKE_MOVE';
-const TILES_EAT_EGG = 'TILES_EAT_EGG';
-const SNAKE_SNAKE_MOVE = 'SNAKE_SNAKE_MOVE';
-const SNAKE_EAT_EGG = 'SNAKE_EAT_EGG';
-const GENERATE_EGG = 'GENERATE_EGG';
 
-const INIT_GAME_STATUS = 'UNINITIALIZED';
-const INIT_SNAKE_ORIENTATION = 'LEFT';
-const INIT_TARGET_ORIENTATION = 'LEFT';
-
-const gameStatusList = [
-  'UNINITIALIZED', 'INITIALIZING', 'INITIALIZED',
-  'RUNNING', 'PAUSED', 'LOST',
-];
-const orientations = ['UP', 'DOWN', 'LEFT', 'RIGHT'];
-const tileTypes = ['default', 'egg', 'snake-head', 'snake-joint'];
+import {
+  INITIALIZE, INITIALIZE_TILES, INITIALIZE_SNAKE,
+  SET_GAME_STATUS, SET_SNAKE_ORIENTATION, SET_TARGET_ORIENTATION, CHANGE_TARGET_ORIENTATION,
+  SET_MOVE_TIMER, CLEAR_MOVE_TIMER,
+  SNAKE_MOVE, SET_SCORE, ADD_SCORE,
+} from './actionTypes';
 
 function initialize() {
   return {
@@ -54,6 +35,13 @@ function setGameStatus(gameStatus) {
   };
 }
 
+function setScore(score) {
+  return {
+    type: SET_SCORE,
+    score,
+  };
+}
+
 function addScore(variation) {
   return {
     type: ADD_SCORE,
@@ -61,20 +49,27 @@ function addScore(variation) {
   };
 }
 
-function setTargetOrientation({
-  gameStatus = INIT_GAME_STATUS,
-  targetOrientation = INIT_TARGET_ORIENTATION,
-  snakeOrientation = INIT_SNAKE_ORIENTATION,
-} = {}) {
+function setTargetOrientation(targetOrientation) {
   return {
     type: SET_TARGET_ORIENTATION,
+    targetOrientation,
+  };
+}
+
+function changeTargetOrientation({
+  gameStatus,
+  targetOrientation,
+  snakeOrientation,
+} = {}) {
+  return {
+    type: CHANGE_TARGET_ORIENTATION,
     gameStatus,
     targetOrientation,
     snakeOrientation,
   };
 }
 
-function setSnakeOrientation(snakeOrientation = INIT_SNAKE_ORIENTATION) {
+function setSnakeOrientation(snakeOrientation) {
   return {
     type: SET_SNAKE_ORIENTATION,
     snakeOrientation,
@@ -91,6 +86,18 @@ function setMoveTimer(moveTimer) {
 function clearMoveTimer() {
   return {
     type: CLEAR_MOVE_TIMER,
+  };
+}
+
+function changeOrientation(targetOrientation) {
+  return (dispatch, getState) => {
+    const { gameStatus, snakeOrientation } = getState();
+
+    dispatch(changeTargetOrientation({
+      gameStatus,
+      targetOrientation,
+      snakeOrientation,
+    }));
   };
 }
 
@@ -125,18 +132,6 @@ function togglePaused() {
   };
 }
 
-function setOrientation(targetOrientation) {
-  return (dispatch, getState) => {
-    const { gameStatus, snakeOrientation } = getState();
-
-    dispatch(setTargetOrientation({
-      gameStatus,
-      targetOrientation,
-      snakeOrientation,
-    }));
-  };
-}
-
 function snakeMove() {
   return {
     type: SNAKE_MOVE,
@@ -144,30 +139,6 @@ function snakeMove() {
 }
 
 export {
-  INIT_GAME_STATUS,
-  INIT_SNAKE_ORIENTATION,
-  INIT_TARGET_ORIENTATION,
-
-  INITIALIZE,
-  INITIALIZE_TILES,
-  INITIALIZE_SNAKE,
-  SET_MOVE_TIMER,
-  CLEAR_MOVE_TIMER,
-  SET_GAME_STATUS,
-  ADD_SCORE,
-  SET_SNAKE_ORIENTATION,
-  SET_TARGET_ORIENTATION,
-  SNAKE_MOVE,
-  TILES_SNAKE_MOVE,
-  TILES_EAT_EGG,
-  SNAKE_SNAKE_MOVE,
-  SNAKE_EAT_EGG,
-  GENERATE_EGG,
-
-  gameStatusList,
-  orientations,
-  tileTypes,
-
   initialize,
   initializeTiles,
   initializeSnake,
@@ -176,9 +147,11 @@ export {
   togglePaused,
   setMoveTimer,
   clearMoveTimer,
+  setScore,
   addScore,
   setSnakeOrientation,
   setTargetOrientation,
-  setOrientation,
+  changeTargetOrientation,
+  changeOrientation,
   snakeMove,
 };

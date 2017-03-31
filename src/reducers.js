@@ -1,23 +1,25 @@
 import { combineReducers } from 'redux';
 import {
-  INIT_GAME_STATUS, INIT_SNAKE_ORIENTATION, INIT_TARGET_ORIENTATION,
   INITIALIZE, INITIALIZE_TILES, INITIALIZE_SNAKE,
-  ADD_SCORE, SET_GAME_STATUS,
+  SET_GAME_STATUS, SET_SNAKE_ORIENTATION, SET_TARGET_ORIENTATION, CHANGE_TARGET_ORIENTATION,
   SET_MOVE_TIMER, CLEAR_MOVE_TIMER,
-  SET_SNAKE_ORIENTATION, SET_TARGET_ORIENTATION,
-  SNAKE_MOVE, GENERATE_EGG,
+  SNAKE_MOVE, SET_SCORE, ADD_SCORE,
   TILES_SNAKE_MOVE, TILES_EAT_EGG,
-  SNAKE_SNAKE_MOVE, SNAKE_EAT_EGG,
-  initializeTiles, initializeSnake, setGameStatus, addScore,
+  SNAKE_SNAKE_MOVE, SNAKE_EAT_EGG, GENERATE_EGG
+} from './actionTypes';
+import {
+  ROW_COUNT, COL_COUNT, SNAKE_LENGTH,
+  GAME_STATUS, SNAKE_ORIENTATION, TARGET_ORIENTATION,
+} from './setup';
+import {
+  initializeTiles, initializeSnake, setGameStatus, setScore, addScore,
   setTargetOrientation, setSnakeOrientation, clearMoveTimer,
 } from './actions';
 
-const ROW_COUNT = 25;
-const COL_COUNT = 40;
-const INIT_SNAKE_LENGTH = 3;
-
 function scoreReducer(state = 0, action) {
   switch (action.type) {
+    case SET_SCORE:
+      return action.score;
     case ADD_SCORE:
       return state + action.variation;
     default:
@@ -25,7 +27,7 @@ function scoreReducer(state = 0, action) {
   }
 }
 
-function gameStatusReducer(state = INIT_GAME_STATUS, action) {
+function gameStatusReducer(state = GAME_STATUS, action) {
   switch (action.type) {
     case SET_GAME_STATUS:
       return action.gameStatus;
@@ -34,7 +36,7 @@ function gameStatusReducer(state = INIT_GAME_STATUS, action) {
   }
 }
 
-function snakeOrientationReduer(state = INIT_SNAKE_ORIENTATION, action) {
+function snakeOrientationReduer(state = SNAKE_ORIENTATION, action) {
   switch (action.type) {
     case SET_SNAKE_ORIENTATION:
       return action.snakeOrientation;
@@ -43,19 +45,19 @@ function snakeOrientationReduer(state = INIT_SNAKE_ORIENTATION, action) {
   }
 }
 
-function targetOrientationReducer(state = INIT_TARGET_ORIENTATION, action) {
-  const { gameStatus, targetOrientation, snakeOrientation } = action;
-
+function targetOrientationReducer(state = TARGET_ORIENTATION, action) {
   switch (action.type) {
     case SET_TARGET_ORIENTATION:
-      if (gameStatus !== 'RUNNING') return state;
-      if (targetOrientation === 'LEFT' || targetOrientation === 'RIGHT') {
-        if (snakeOrientation === 'UP' || snakeOrientation === 'DOWN') {
-          return targetOrientation;
+      return action.targetOrientation;
+    case CHANGE_TARGET_ORIENTATION:
+      if (action.gameStatus !== 'RUNNING') return state;
+      if (action.targetOrientation === 'LEFT' || action.targetOrientation === 'RIGHT') {
+        if (action.snakeOrientation === 'UP' || action.snakeOrientation === 'DOWN') {
+          return action.targetOrientation;
         }
       } else {
-        if (snakeOrientation === 'LEFT' || snakeOrientation === 'RIGHT') {
-          return targetOrientation;
+        if (action.snakeOrientation === 'LEFT' || action.snakeOrientation === 'RIGHT') {
+          return action.targetOrientation;
         }
       }
       return state;
@@ -203,7 +205,7 @@ function getInitalizedSnake() {
   let deltaRow = 0;
   let deltaCol = 0;
 
-  switch (INIT_TARGET_ORIENTATION) {
+  switch (TARGET_ORIENTATION) {
     case 'UP': deltaRow = 1; break;
     case 'DOWN': deltaRow = -1; break;
     case 'LEFT': deltaCol = 1; break;
@@ -220,7 +222,7 @@ function getInitalizedSnake() {
     col,
   }];
 
-  for (let i = 0; i < INIT_SNAKE_LENGTH - 1; i++) {
+  for (let i = 0; i < SNAKE_LENGTH - 1; i++) {
     row += deltaRow;
     col += deltaCol;
 
@@ -299,10 +301,10 @@ function crossSliceInitialize(state = {}, action) {
   const snake = getInitalizedSnake();
   const egg = getInitializedEgg();
 
-  nextState.score = scoreReducer(undefined, addScore(0));
+  nextState.score = scoreReducer(state.score, setScore(0));
   nextState.gameStatus = gameStatusReducer(state.gameStatus, setGameStatus('INITIALIZED'));
-  nextState.targetOrientation = targetOrientationReducer(undefined, setTargetOrientation());
-  nextState.snakeOrientation = snakeOrientationReduer(undefined, setSnakeOrientation());
+  nextState.targetOrientation = targetOrientationReducer(state.targetOrientation, setTargetOrientation(TARGET_ORIENTATION));
+  nextState.snakeOrientation = snakeOrientationReduer(state.snakeOrientation, setSnakeOrientation(SNAKE_ORIENTATION));
   nextState.tiles = tilesReducer(state.tiles, initializeTiles({ tiles, snake, egg }));
   nextState.snake = snakeReducer(state.snake, initializeSnake(snake));
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-  initialize, start, setOrientation, togglePaused,
+  initialize, start, changeOrientation, togglePaused,
 } from '../actions';
 import Main from '../components/Main';
 
@@ -15,8 +15,8 @@ const mapDispatchToProps = (dispatch) => {
     togglePaused: () => {
       dispatch(togglePaused());
     },
-    setOrientation: (orientation) => {
-      dispatch(setOrientation(orientation));
+    changeOrientation: (orientation) => {
+      dispatch(changeOrientation(orientation));
     },
   };
 };

@@ -9,7 +9,7 @@ class Main extends Component {
     initialize: PropTypes.func,
     start: PropTypes.func,
     togglePaused: PropTypes.func,
-    setOrientation: PropTypes.func,
+    changeOrientation: PropTypes.func,
   };
 
   constructor(props) {
@@ -18,7 +18,7 @@ class Main extends Component {
   }
 
   handleKeyUp(e) {
-    const { start, togglePaused, setOrientation } = this.props;
+    const { start, togglePaused, changeOrientation } = this.props;
     const keyName = keycode(e);
     switch (keyName) {
       case 'enter': start(); break;
@@ -27,7 +27,7 @@ class Main extends Component {
       case 'down':
       case 'left':
       case 'right':
-        setOrientation(keyName.toUpperCase());
+        changeOrientation(keyName.toUpperCase());
         break;
       default:
         break;

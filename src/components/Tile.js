@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { tileTypes, orientations } from '../actions';
+import React from 'react';
+import * as propTypes from '../propTypes';
 
 const Tile = ({ type, snakeOrientation }) => {
   const className = `tile ${type} ${snakeOrientation ? snakeOrientation.toLowerCase() : ''}`;
@@ -7,8 +7,8 @@ const Tile = ({ type, snakeOrientation }) => {
 };
 
 Tile.propTypes = {
-  type: PropTypes.oneOf(tileTypes),
-  snakeOrientation: PropTypes.oneOf(orientations),
+  type: propTypes.tileType,
+  snakeOrientation: propTypes.orientation,
 };
 
 export default Tile;

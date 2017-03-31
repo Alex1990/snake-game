@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { gameStatusList } from '../actions';
+import React from 'react';
+import * as propTypes from '../propTypes';
 
 const StatusInfo = ({ gameStatus }) => {
   let info;
@@ -29,7 +29,7 @@ const StatusInfo = ({ gameStatus }) => {
 };
 
 StatusInfo.propTypes = {
-  gameStatus: PropTypes.oneOf(gameStatusList),
+  gameStatus: propTypes.gameStatus,
 };
 
 export default StatusInfo;
