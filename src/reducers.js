@@ -44,11 +44,11 @@ function snakeOrientationReduer(state = INIT_SNAKE_ORIENTATION, action) {
 }
 
 function targetOrientationReducer(state = INIT_TARGET_ORIENTATION, action) {
-  const targetOrientation = action.targetOrientation;
-  const snakeOrientation = action.snakeOrientation;
+  const { gameStatus, targetOrientation, snakeOrientation } = action;
 
   switch (action.type) {
     case SET_TARGET_ORIENTATION:
+      if (gameStatus !== 'RUNNING') return state;
       if (targetOrientation === 'LEFT' || targetOrientation === 'RIGHT') {
         if (snakeOrientation === 'UP' || snakeOrientation === 'DOWN') {
           return targetOrientation;

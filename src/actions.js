@@ -61,12 +61,14 @@ function addScore(variation) {
   };
 }
 
-function setTargetOrientation(
+function setTargetOrientation({
+  gameStatus = INIT_GAME_STATUS,
   targetOrientation = INIT_TARGET_ORIENTATION,
   snakeOrientation = INIT_SNAKE_ORIENTATION,
-) {
+} = {}) {
   return {
     type: SET_TARGET_ORIENTATION,
+    gameStatus,
     targetOrientation,
     snakeOrientation,
   };
@@ -115,7 +117,7 @@ function togglePaused() {
       dispatch(clearMoveTimer());
     } else if (gameStatus === 'PAUSED') {
       const moveTimer = setInterval(() => {
-        dispatch(snakeMove);
+        dispatch(snakeMove());
       }, 500);
       dispatch(setMoveTimer(moveTimer));
       dispatch(setGameStatus('RUNNING'));
@@ -125,9 +127,13 @@ function togglePaused() {
 
 function setOrientation(targetOrientation) {
   return (dispatch, getState) => {
-    const { snakeOrientation } = getState();
+    const { gameStatus, snakeOrientation } = getState();
 
-    dispatch(setTargetOrientation(targetOrientation, snakeOrientation));
+    dispatch(setTargetOrientation({
+      gameStatus,
+      targetOrientation,
+      snakeOrientation,
+    }));
   };
 }
 
