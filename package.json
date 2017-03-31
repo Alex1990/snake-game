@@ -1,7 +1,12 @@
 {
   "name": "snake-game",
   "version": "0.1.0",
+  "description": "A simple and classical snake game",
+  "main": "./src/index.js",
   "homepage": "https://alex1990.github.io/snake-game",
+  "repository": "Alex1990/snake-game",
+  "license": "MIT",
+  "author": "Alex Chao <alexchao1990@gmail.com>",
   "dependencies": {
     "keycode": "^2.1.8",
     "react": "^15.4.2",
