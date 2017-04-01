@@ -129,14 +129,14 @@ function changeOrientation(targetOrientation) {
 
 function start() {
   return (dispatch, getState) => {
-    const { gameStatus, snakeSpeed } = getState();
+    const { gameStatus } = getState();
     if (gameStatus === 'LOST') {
       dispatch(initialize());
     }
     dispatch(setGameStatus('RUNNING'));
     const moveTimer = setInterval(() => {
       dispatch(snakeMove());
-    }, 1000 * 1 / snakeSpeed);
+    }, 1000 * 1 / INIT_SNAKE_SPEED);
     dispatch(setMoveTimer(moveTimer));
   };
 }
