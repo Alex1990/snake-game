@@ -1,24 +1,17 @@
 import { combineReducers } from 'redux';
 import {
-  INIT_GAME_STATUS, INIT_SNAKE_ORIENTATION, INIT_TARGET_ORIENTATION,
+  INIT_GAME_STATUS, INIT_SNAKE_SPEED, INIT_SNAKE_ORIENTATION, INIT_TARGET_ORIENTATION,
 } from './setup';
 import {
-  INITIALIZE, INITIALIZE_TILES, INITIALIZE_SNAKE,
-  SET_GAME_STATUS, SET_SNAKE_ORIENTATION,
+  INITIALIZE_TILES, INITIALIZE_SNAKE,
+  SET_GAME_STATUS, SET_SNAKE_SPEED, SET_SNAKE_ORIENTATION,
   SET_TARGET_ORIENTATION, CHANGE_TARGET_ORIENTATION,
   SET_MOVE_TIMER, CLEAR_MOVE_TIMER,
-  SNAKE_MOVE, SET_SCORE, ADD_SCORE,
+  SET_SCORE, ADD_SCORE,
   TILES_SNAKE_MOVE, TILES_EAT_EGG,
   SNAKE_SNAKE_MOVE, SNAKE_EAT_EGG, GENERATE_EGG
 } from './actionTypes';
-import {
-  initializeTiles, initializeSnake, setGameStatus, setScore, addScore,
-  setTargetOrientation, setSnakeOrientation, clearMoveTimer,
-} from './actions';
-import {
-  cloneTiles, isLost, generateEgg,
-  getInitTiles, getInitSnake, getInitEgg
-} from './util';
+import { cloneTiles } from './util';
 
 function scoreReducer(state = 0, action) {
   switch (action.type) {
@@ -35,6 +28,15 @@ function gameStatusReducer(state = INIT_GAME_STATUS, action) {
   switch (action.type) {
     case SET_GAME_STATUS:
       return action.gameStatus;
+    default:
+      return state;
+  }
+}
+
+function snakeSpeedReducer(state = INIT_SNAKE_SPEED, action) {
+  switch (action.type) {
+    case SET_SNAKE_SPEED:
+      return action.snakeSpeed;
     default:
       return state;
   }
@@ -182,112 +184,13 @@ function snakeReducer(state = [], action) {
   }
 }
 
-function crossSliceInitialize(state = {}, action) {
-  const nextState = { ...state };
-  const tiles = getInitTiles();
-  const snake = getInitSnake();
-  const egg = getInitEgg();
-
-  nextState.score = scoreReducer(state.score, setScore(0));
-  nextState.gameStatus = gameStatusReducer(state.gameStatus, setGameStatus('INITIALIZED'));
-  nextState.targetOrientation = targetOrientationReducer(state.targetOrientation, setTargetOrientation(INIT_TARGET_ORIENTATION));
-  nextState.snakeOrientation = snakeOrientationReduer(state.snakeOrientation, setSnakeOrientation(INIT_SNAKE_ORIENTATION));
-  nextState.tiles = tilesReducer(state.tiles, initializeTiles({ tiles, snake, egg }));
-  nextState.snake = snakeReducer(state.snake, initializeSnake(snake));
-
-  return nextState;
-}
-
-function crossSliceSnakeMove(state, action) {
-  const nextState = { ...state };
-  const { score, targetOrientation, snakeOrientation, tiles, snake } = state;
-  let nextTileRow = snake[0].row;
-  let nextTileCol = snake[0].col;
-
-  switch (state.targetOrientation) {
-    case 'UP':
-      nextTileRow -= 1;
-      break;
-    case 'DOWN':
-      nextTileRow += 1;
-      break;
-    case 'LEFT':
-      nextTileCol -= 1;
-      break;
-    case 'RIGHT':
-      nextTileCol += 1;
-      break;
-    default:
-      break;
-  }
-
-  if (isLost({ tiles, snake, nextTileRow, nextTileCol })) {
-    nextState.gameStatus = gameStatusReducer(state.gameStatus, setGameStatus('LOST'));
-    nextState.moveTimer = moveTimerReducer(state.moveTimer, clearMoveTimer());
-  } else {
-    const nextTile = tiles[nextTileRow][nextTileCol];
-    switch (nextTile.type) {
-      case 'egg':
-        nextState.tiles = tilesReducer(tiles, {
-          type: TILES_EAT_EGG,
-          snake: snake,
-          egg: nextTile,
-        });
-        nextState.snake = snakeReducer(snake, {
-          type: SNAKE_EAT_EGG,
-          egg: nextTile,
-        });
-        nextState.tiles = tilesReducer(nextState.tiles, {
-          type: GENERATE_EGG,
-          egg: generateEgg(nextState.tiles, nextState.snake),
-        });
-        nextState.snakeOrientation = snakeOrientationReduer(snakeOrientation, setSnakeOrientation(targetOrientation));
-        nextState.score = scoreReducer(score, addScore(1));
-        break;
-      case 'default':
-        nextState.tiles = tilesReducer(tiles, {
-          type: TILES_SNAKE_MOVE,
-          snake: snake,
-          tile: nextTile,
-        });
-        nextState.snake = snakeReducer(snake, {
-          type: SNAKE_SNAKE_MOVE,
-          tile: nextTile,
-        });
-        nextState.snakeOrientation = snakeOrientationReduer(snakeOrientation, setSnakeOrientation(targetOrientation));
-        break;
-      default:
-        break;
-    }
-  }
-  return nextState;
-}
-
-function crossSliceReducer(state, action) {
-  switch (action.type) {
-    case INITIALIZE:
-      return crossSliceInitialize(state, action);
-    case SNAKE_MOVE:
-      return crossSliceSnakeMove(state, action);
-    default:
-      return state;
-  }
-}
-
-const combinedReducers = combineReducers({
+export default combineReducers({
   score: scoreReducer,
   gameStatus: gameStatusReducer,
+  snakeSpeed: snakeSpeedReducer,
   moveTimer: moveTimerReducer,
   snakeOrientation: snakeOrientationReduer,
   targetOrientation: targetOrientationReducer,
   tiles: tilesReducer,
   snake: snakeReducer,
 });
-
-const rootReducer = function (state, action) {
-  const intermediateState = combinedReducers(state, action);
-  const finalState = crossSliceReducer(intermediateState, action);
-  return finalState;
-}
-
-export default rootReducer;

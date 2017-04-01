@@ -89,6 +89,32 @@ function getInitEgg() {
   };
 }
 
+function getNextTile({ snakeHead, targetOrientation }) {
+  const nextTile = {
+    row: snakeHead.row,
+    col: snakeHead.col,
+  };
+
+  switch (targetOrientation) {
+    case 'UP':
+      nextTile.row -= 1;
+      break;
+    case 'DOWN':
+      nextTile.row += 1;
+      break;
+    case 'LEFT':
+      nextTile.col -= 1;
+      break;
+    case 'RIGHT':
+      nextTile.col += 1;
+      break;
+    default:
+      break;
+  }
+
+  return nextTile;
+}
+
 function generateEgg(tiles, snake) {
   const rowCount = tiles.length;
   const colCount = tiles[0].length;
@@ -125,5 +151,6 @@ export {
   getInitTiles,
   getInitSnake,
   getInitEgg,
+  getNextTile,
   generateEgg,
 };
