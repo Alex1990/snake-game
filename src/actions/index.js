@@ -140,6 +140,7 @@ function start() {
         dispatch(snakeMove());
       }, 1000 * 1 / INIT_SNAKE_SPEED);
       dispatch(setMoveTimer(moveTimer));
+      return moveTimer;
     }
   };
 }
