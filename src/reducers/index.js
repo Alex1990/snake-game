@@ -203,3 +203,14 @@ export default combineReducers({
   tiles: tilesReducer,
   snake: snakeReducer,
 });
+
+export {
+  scoreReducer as score,
+  gameStatusReducer as gameStatus,
+  snakeSpeedReducer as snakeSpeed,
+  moveTimerReducer as moveTimer,
+  snakeOrientationReduer as snakeOrientation,
+  targetOrientationReducer as targetOrientation,
+  tilesReducer as tiles,
+  snakeReducer as snake,
+};
