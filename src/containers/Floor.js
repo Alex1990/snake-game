@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as propTypes from '../constants/propTypes';
 import Tile from '../components/Tile';
 
-const Floor = ({ tiles, snakeOrientation }) => {
+export const Floor = ({ tiles, snakeOrientation }) => {
   const tileList = tiles.map((rowTiles, row) =>
     <div className="tile-row" key={`tile-row-${row}`}>
     {

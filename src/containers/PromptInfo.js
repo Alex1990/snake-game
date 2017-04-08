@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as propTypes from '../constants/propTypes';
 
-const PromptInfo = ({ gameStatus }) => {
+export const PromptInfo = ({ gameStatus }) => {
   let info;
 
   switch (gameStatus) {

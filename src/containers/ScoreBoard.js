@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-const ScoreBoard = ({ score }) => (
+export const ScoreBoard = ({ score }) => (
   <div className="score">
     Score: <span className="score-value">{score}</span>  
   </div>

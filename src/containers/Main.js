@@ -7,7 +7,7 @@ import {
 import PlayArea from '../components/PlayArea';
 import AttachPanel from '../components/AttachPanel';
 
-class Main extends Component {
+export class Main extends Component {
 
   static propTypes = {
     initialize: PropTypes.func,
