@@ -133,11 +133,14 @@ function start() {
     if (gameStatus === 'LOST') {
       dispatch(initialize());
     }
-    dispatch(setGameStatus('RUNNING'));
-    const moveTimer = setInterval(() => {
-      dispatch(snakeMove());
-    }, 1000 * 1 / INIT_SNAKE_SPEED);
-    dispatch(setMoveTimer(moveTimer));
+
+    if (gameStatus !== 'RUNNING' && gameStatus !== 'PAUSED') {
+      dispatch(setGameStatus('RUNNING'));
+      const moveTimer = setInterval(() => {
+        dispatch(snakeMove());
+      }, 1000 * 1 / INIT_SNAKE_SPEED);
+      dispatch(setMoveTimer(moveTimer));
+    }
   };
 }
 
