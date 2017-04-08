@@ -1,6 +1,6 @@
 import {
   INIT_SNAKE_SPEED, INIT_SNAKE_ORIENTATION, INIT_TARGET_ORIENTATION,
-} from './setup';
+} from '../constants/setup';
 import {
   INITIALIZE_TILES, INITIALIZE_SNAKE,
   SET_GAME_STATUS, SET_SNAKE_SPEED,
@@ -9,7 +9,7 @@ import {
   SET_SCORE, ADD_SCORE,
   TILES_EAT_EGG, SNAKE_EAT_EGG, GENERATE_EGG,
   TILES_SNAKE_MOVE, SNAKE_SNAKE_MOVE,
-} from './actionTypes';
+} from '../constants/actionTypes';
 import {
   isLost, getNextTile, generateEgg,
   getInitTiles, getInitSnake, getInitEgg

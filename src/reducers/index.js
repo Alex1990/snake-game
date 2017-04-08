@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   INIT_GAME_STATUS, INIT_SNAKE_SPEED, INIT_SNAKE_ORIENTATION, INIT_TARGET_ORIENTATION,
-} from './setup';
+} from '../constants/setup';
 import {
   INITIALIZE_TILES, INITIALIZE_SNAKE,
   SET_GAME_STATUS, SET_SNAKE_SPEED, SET_SNAKE_ORIENTATION,
@@ -10,8 +10,17 @@ import {
   SET_SCORE, ADD_SCORE,
   TILES_SNAKE_MOVE, TILES_EAT_EGG,
   SNAKE_SNAKE_MOVE, SNAKE_EAT_EGG, GENERATE_EGG
-} from './actionTypes';
-import { cloneTiles } from './util';
+} from '../constants/actionTypes';
+
+/* Helper functions */
+
+function cloneTiles(tiles) {
+  return tiles.map(rowTiles =>
+    rowTiles.map(tile => ({ ...tile }))
+  );
+}
+
+/* Reducers */
 
 function scoreReducer(state = 0, action) {
   switch (action.type) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as propTypes from '../propTypes';
+import * as propTypes from '../constants/propTypes';
 import Tile from './Tile';
 
 const Floor = ({ tiles, snakeOrientation }) => {

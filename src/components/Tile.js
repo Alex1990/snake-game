@@ -1,5 +1,5 @@
 import React from 'react';
-import * as propTypes from '../propTypes';
+import * as propTypes from '../constants/propTypes';
 
 const Tile = ({ type, snakeOrientation }) => {
   const className = `tile ${type} ${snakeOrientation ? snakeOrientation.toLowerCase() : ''}`;

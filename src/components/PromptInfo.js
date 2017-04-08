@@ -1,5 +1,5 @@
 import React from 'react';
-import * as propTypes from '../propTypes';
+import * as propTypes from '../constants/propTypes';
 
 const PropmptInfo = ({ gameStatus }) => {
   let info;

@@ -1,13 +1,7 @@
 import {
   ROW_COUNT, COL_COUNT, INIT_SNAKE_LENGTH,
   INIT_TARGET_ORIENTATION,
-} from './setup';
-
-function cloneTiles(tiles) {
-  return tiles.map(rowTiles =>
-    rowTiles.map(tile => ({ ...tile }))
-  );
-}
+} from '../constants/setup';
 
 function isLost({ tiles, snake, nextTileRow, nextTileCol }) {
   const rowCount = tiles.length;
@@ -146,7 +140,6 @@ function generateEgg(tiles, snake) {
 }
 
 export {
-  cloneTiles,
   isLost,
   getInitTiles,
   getInitSnake,
