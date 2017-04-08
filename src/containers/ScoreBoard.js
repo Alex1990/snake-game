@@ -1,5 +1,15 @@
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import ScoreBoardComponent from '../components/ScoreBoard';
+
+const ScoreBoard = ({ score }) => (
+  <div className="score">
+    Score: <span className="score-value">{score}</span>  
+  </div>
+);
+
+ScoreBoard.propTypes = {
+  score: PropTypes.number,
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -7,8 +17,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const ScoreBoard = connect(
+export default connect(
   mapStateToProps,
-)(ScoreBoardComponent);
-
-export default ScoreBoard;
+)(ScoreBoard);
