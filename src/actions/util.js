@@ -1,6 +1,7 @@
 import {
   ROW_COUNT, COL_COUNT, INIT_SNAKE_LENGTH,
-  INIT_TARGET_ORIENTATION,
+  INIT_TARGET_ORIENTATION, INIT_SNAKE_ROW, INIT_SNAKE_COL,
+  INIT_EGG_ROW, INIT_EGG_COL,
 } from '../constants/setup';
 
 function isLost({ tiles, snake, nextTileRow, nextTileCol }) {
@@ -52,8 +53,8 @@ function getInitSnake() {
     default: break;
   }
 
-  let row = 12;
-  let col = 30;
+  let row = INIT_SNAKE_ROW;
+  let col = INIT_EGG_COL;
 
   const snake = [{
     type: 'snake-head',
@@ -78,8 +79,8 @@ function getInitSnake() {
 function getInitEgg() {
   return {
     type: 'egg',
-    row: 12,
-    col: 8,
+    row: INIT_EGG_ROW,
+    col: INIT_EGG_COL,
   };
 }
 
@@ -109,7 +110,7 @@ function getNextTile({ snakeHead, targetOrientation }) {
   return nextTile;
 }
 
-function generateEgg(tiles, snake) {
+function generateEgg({ tiles, snake }) {
   const rowCount = tiles.length;
   const colCount = tiles[0].length;
   let row = 0;

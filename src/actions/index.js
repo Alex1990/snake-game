@@ -168,7 +168,7 @@ function snakeMove() {
           });
           dispatch({
             type: GENERATE_EGG,
-            egg: generateEgg(tiles, snake),
+            egg: generateEgg({ tiles, snake }),
           });
           dispatch(setSnakeOrientation(targetOrientation));
           dispatch(addScore(1));

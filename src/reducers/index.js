@@ -11,14 +11,7 @@ import {
   TILES_SNAKE_MOVE, TILES_EAT_EGG,
   SNAKE_SNAKE_MOVE, SNAKE_EAT_EGG, GENERATE_EGG
 } from '../constants/actionTypes';
-
-/* Helper functions */
-
-function cloneTiles(tiles) {
-  return tiles.map(rowTiles =>
-    rowTiles.map(tile => ({ ...tile }))
-  );
-}
+import { cloneTiles } from './util';
 
 /* Reducers */
 

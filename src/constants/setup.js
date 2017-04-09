@@ -8,3 +8,9 @@ export const INIT_TARGET_ORIENTATION = 'LEFT';
 
 export const INIT_SNAKE_LENGTH = 3;
 export const INIT_SNAKE_SPEED = 4; // unit: tps - tiles per second
+
+export const INIT_SNAKE_ROW = 12;
+export const INIT_SNAKE_COL = 30;
+
+export const INIT_EGG_ROW = 12;
+export const INIT_EGG_COL = 8;
