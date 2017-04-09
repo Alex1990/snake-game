@@ -54,7 +54,7 @@ function getInitSnake() {
   }
 
   let row = INIT_SNAKE_ROW;
-  let col = INIT_EGG_COL;
+  let col = INIT_SNAKE_COL;
 
   const snake = [{
     type: 'snake-head',

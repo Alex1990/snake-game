@@ -63,6 +63,8 @@ describe('actions/util', () => {
     const snake = util.getInitSnake();
     expect(snake.length).toBe(setup.INIT_SNAKE_LENGTH);
     expect(snake[0].type).toBe('snake-head');
+    expect(snake[0].row).toBe(setup.INIT_SNAKE_ROW);
+    expect(snake[0].col).toBe(setup.INIT_SNAKE_COL);
     expect(snake[1].type).toBe('snake-joint');
   });
 
