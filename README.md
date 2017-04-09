@@ -1,6 +1,6 @@
-# snake-game
+# snake-go
 
-[![Build Status](https://travis-ci.org/Alex1990/snake-game.svg?branch=master)](https://travis-ci.org/Alex1990/snake-game)
+[![Build Status](https://travis-ci.org/Alex1990/snake-go.svg?branch=master)](https://travis-ci.org/Alex1990/snake-game)
 
 A simple and classical snake game.
 

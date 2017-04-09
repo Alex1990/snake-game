@@ -1,10 +1,10 @@
 {
-  "name": "snake-game",
+  "name": "snake-go",
   "version": "0.1.0",
   "description": "A simple and classical snake game",
   "main": "./src/index.js",
-  "homepage": "https://alex1990.github.io/snake-game",
-  "repository": "Alex1990/snake-game",
+  "homepage": "https://alex1990.github.io/snake-go",
+  "repository": "Alex1990/snake-go",
   "license": "MIT",
   "author": "Alex Chao <alexchao1990@gmail.com>",
   "dependencies": {
